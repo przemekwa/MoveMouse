@@ -8,43 +8,47 @@ using System.ComponentModel;
 
 namespace MoveMouse
 {
-    class MoveMouse2 : INotifyPropertyChanged, ITimer
+    public class MoveMouse : INotifyPropertyChanged, ITimer
     {
         [DllImport("User32.dll")]
         private static extern bool SetCursorPos(int X, int Y);
+
         bool przeskok = true;
-        string _Stan = "Wyłączony";
         public short czasDo { get; set; }
-        public string Stan {
+        
+        string _currentState = "Disable";
+
+        public string CurrentState {
 
             get
             {
-                return _Stan;
+                return _currentState;
             }
-
-
             set
             {
-                _Stan = value;
-                NotifyPropertyChanged("Stan");
+                _currentState = value;
+                NotifyPropertyChanged(nameof(CurrentState));
             }
         }
 
         DispatcherTimer t;          
 
 
-        public MoveMouse2()
+        public MoveMouse()
         {
-            t = new DispatcherTimer();
-            t.Interval = new TimeSpan(0, 0, 1);
-            t.Tick += new EventHandler(t_Tick);
+            t = new DispatcherTimer
+            {
+                Interval = new TimeSpan(0, 0, 1)
+            };
+
+            t.Tick += new EventHandler(TickFunction);
         }
 
-        void t_Tick(object sender, EventArgs e)
+        void TickFunction(object sender, EventArgs e)
         {
-
             if (czasDo > short.Parse(DateTime.Now.ToString("HH")))
             {
+
                 if (przeskok)
                 {
                     SetCursorPos(300, 300);
@@ -65,13 +69,13 @@ namespace MoveMouse
         public void Start()
         {
             t.Start();
-            Stan = "Włączony";
+            CurrentState = "Włączony";
         }
 
         public void Stop()
         {
             t.Stop();
-            Stan = "Wyłączony";
+            CurrentState = "Wyłączony";
         }
 
 
@@ -79,6 +83,7 @@ namespace MoveMouse
         protected virtual void NotifyPropertyChanged(String propertyName)
         {
             var handler = PropertyChanged;
+
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
 

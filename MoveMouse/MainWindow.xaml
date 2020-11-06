@@ -18,7 +18,7 @@
                     <StackPanel>
                     <StackPanel Orientation="Horizontal">
                             <Label Name="label3">Stan:</Label>
-                            <Label Name="label4" Content="{Binding Stan}"></Label>
+                            <Label Name="label4" Content="{Binding CurrentState}"></Label>
                         
                     </StackPanel>
                         <StackPanel Orientation="Horizontal">

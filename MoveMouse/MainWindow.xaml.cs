@@ -9,7 +9,7 @@ namespace MoveMouse
     public partial class MainWindow : Window
     {
         ITimer s = new Stoper();
-        ITimer m = new MoveMouse2();
+        ITimer m = new MoveMouse();
 
 
         public MainWindow()
